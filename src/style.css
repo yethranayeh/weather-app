@@ -1,0 +1,45 @@
+/** @format */
+*,
+*:before,
+*:after {
+	box-sizing: border-box;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap; /* added line */
+	border: 0;
+}
+
+form {
+	padding: 1em;
+	display: inline-flex;
+	flex-direction: column;
+	gap: 0.3em;
+}
+
+input[type="search"] {
+	border: none;
+	outline: none;
+}
+
+.btn-search {
+	margin-top: 0.7em;
+	display: inline-flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.2em;
+	padding: 0.2em 0.8em;
+	border: 2px solid black;
+	border-radius: 10px;
+}
+
+.btn-search i {
+	cursor: pointer;
+}
