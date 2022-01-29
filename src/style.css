@@ -1,4 +1,10 @@
 /** @format */
+
+/* Start: General */
+:root {
+	--border-radius: 10px;
+}
+
 *,
 *:before,
 *:after {
@@ -16,30 +22,124 @@
 	white-space: nowrap; /* added line */
 	border: 0;
 }
+/* End: General */
 
-form {
-	padding: 1em;
-	display: inline-flex;
+/* Start: Main */
+.content {
+	display: flex;
 	flex-direction: column;
-	gap: 0.3em;
+	gap: 1rem;
+}
+
+/* -Start: Form */
+form {
+	--fs: 1.2rem;
+	font-size: var(--fs);
+	padding: 0.5em;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5em;
 }
 
 input[type="search"] {
 	border: none;
 	outline: none;
+	width: 100%;
+	padding: 0.3em;
+	font-size: 1.1em;
 }
 
-.btn-search {
-	margin-top: 0.7em;
+.search-area {
 	display: inline-flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: 0.2em;
-	padding: 0.2em 0.8em;
+
+	padding: 0.3em 0.5em;
 	border: 2px solid black;
-	border-radius: 10px;
+	border-radius: var(--border-radius);
 }
 
-.btn-search i {
+.search-area i {
 	cursor: pointer;
 }
+
+.options {
+	display: flex;
+	justify-content: space-between;
+}
+
+.lang {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.6em;
+}
+
+.lang select {
+	border: none;
+	background: none;
+}
+
+.units {
+	display: flex;
+	flex-direction: row-reverse;
+}
+
+.units input {
+	appearance: none;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	border: none;
+	outline: none;
+}
+
+.units label {
+	padding: 0.4em;
+	border-bottom: 2px solid transparent;
+}
+
+.units input:checked + label {
+	transition: border-bottom 250ms ease-out;
+	border-bottom: 2px solid black;
+}
+/* -End: Form */
+
+/* -Start: Weather Info */
+.weather {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 0.5em;
+}
+
+.loading {
+	font-size: 4rem;
+}
+
+.error {
+	--fs: 1.4rem;
+	font-size: var(--fs);
+	width: 75%;
+
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	padding: 0.2em 0.8em;
+	gap: 0.6em;
+
+	border: 2px solid red;
+	border-radius: var(--border-radius);
+}
+
+.error p {
+	text-transform: capitalize;
+	font-weight: bold;
+}
+
+.error i {
+	color: red;
+}
+/* -End: Weather Info */
+/* End: Main */
