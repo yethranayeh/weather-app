@@ -8,15 +8,15 @@
 	--padding-medium: 0.5rem;
 	--padding-max: 1rem;
 
-	--bg: #1780a1;
-	--primary: #455e89;
-	--secondary: #b6ccfe;
+	--bg: #212529;
+	--primary: #212529;
+	--secondary: #adb5bd;
 	--error: #de4d4c;
 
-	--light: #edf2fb;
-	--middle: #ccdbfd;
-	--dark: #2e6f95;
-	--weather: #edf2fb;
+	--light: #dee2e6;
+	--middle: #adb5bd;
+	--dark: #343a40;
+	--weather: #adb5bd;
 
 	--day: #ec6e4c;
 	--night: #070a32;
@@ -178,7 +178,6 @@ input[type="search"] {
 	background: none;
 	width: 100%;
 	padding: var(--padding-min);
-	font-size: 1.1em;
 	color: var(--primary);
 	transition: color 250ms ease-out;
 }
@@ -189,6 +188,8 @@ input[type="search"] {
 	justify-content: space-between;
 	gap: 0.2em;
 	padding: var(--padding-min) var(--padding-medium);
+
+	font-size: 1.1em;
 	border: 3px solid var(--primary);
 	border-radius: var(--border-radius);
 	background-color: var(--middle);
