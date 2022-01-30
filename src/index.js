@@ -1,5 +1,6 @@
 /** @format */
 
+import "./reset.css";
 import "./style.css";
 import PubSub from "pubsub-js";
 import DOM from "./DOM.js";
@@ -13,6 +14,12 @@ const Events = {
 	WEATHER_ERROR: "weather_error"
 };
 
+/**
+ * @param {string} apiProxy - The proxy to use for the API call
+ * @param {string} input - City name
+ * @param {string} units - Unit (metric or imperial)
+ * @param {string} lang - Language (en or fr)
+ */
 async function getWeather(apiProxy, city, units, lang) {
 	const response = await fetch(`${apiProxy}?q=${city}&units=${units}&lang=${lang}`, { mode: "cors" });
 	const data = await response.json();
@@ -41,6 +48,7 @@ form.lang.addEventListener("change", (event) => {
 form.self.addEventListener("submit", (event) => {
 	event.preventDefault();
 	PubSub.publish(Events.SEARCH_SUBMITTED, form.input.value);
+	form.input.value = "";
 });
 
 form.button.addEventListener("click", (event) => {
@@ -59,10 +67,6 @@ form.units.forEach((unit) => {
 PubSub.subscribe(Events.SEARCH_SUBMITTED, (topic, input) => {
 	DOM.displayLoading();
 
-	/**
-	 * @param {string} input - City name
-	 * @param {string} units - Unit (metric or imperial)
-	 */
 	getWeather(apiProxy, input, form.unit.id, form.lang.value)
 		.then((data) => {
 			// If the data is valid, publish the weather data
@@ -71,6 +75,7 @@ PubSub.subscribe(Events.SEARCH_SUBMITTED, (topic, input) => {
 				throw new Error(data.message);
 			} else {
 				PubSub.publish(Events.WEATHER_LOADED, data);
+				console.log(data);
 			}
 		})
 		.catch((error) => {
@@ -85,4 +90,6 @@ PubSub.subscribe(Events.WEATHER_ERROR, (topic, error) => {
 
 PubSub.subscribe(Events.WEATHER_LOADED, (topic, data) => {
 	DOM.displayWeather(data);
+	document.querySelector("body").setAttribute("data-weather", data.weather[0].main);
+	document.querySelector("body").setAttribute("data-time", data.weather[0].icon[data.weather[0].icon.length - 1]);
 });
