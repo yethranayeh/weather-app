@@ -5,6 +5,13 @@ import "./style.css";
 import PubSub from "pubsub-js";
 import DOM from "./DOM.js";
 
+const fontPreload = document.querySelector("head").appendChild(document.createElement("link"));
+fontPreload.setAttribute("rel", "preload");
+fontPreload.href = "./fonts/saira-v8-latin-ext_latin-700.woff2";
+fontPreload.setAttribute("as", "font");
+fontPreload.setAttribute("type", "font/woff2");
+fontPreload.setAttribute("crossorigin", "");
+
 DOM.init();
 
 const Events = {
