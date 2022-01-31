@@ -60,7 +60,7 @@ const DOM = {
 
 		const icon = (function () {
 			let icon = document.createElement("img");
-			icon.src = `http://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`;
+			icon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`;
 			icon.alt = data.weather[0].description;
 			return icon;
 		})();
