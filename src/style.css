@@ -263,7 +263,12 @@ input[type="search"] {
 .lang option {
 	color: var(--light);
 	background-color: var(--secondary);
+	text-transform: capitalize;
 	transition: color 250ms ease-out, background-color 250ms ease-out;
+}
+
+.lang option.rtl {
+	direction: rtl;
 }
 
 .lang optgroup {
