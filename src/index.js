@@ -5,13 +5,6 @@ import "./style.css";
 import PubSub from "pubsub-js";
 import DOM from "./DOM.js";
 
-const fontPreload = document.querySelector("head").appendChild(document.createElement("link"));
-fontPreload.setAttribute("rel", "preload");
-fontPreload.href = "./fonts/saira-v8-latin-ext_latin-700.woff2";
-fontPreload.setAttribute("as", "font");
-fontPreload.setAttribute("type", "font/woff2");
-fontPreload.setAttribute("crossorigin", "");
-
 DOM.init();
 
 const Events = {
@@ -32,6 +25,62 @@ async function getWeather(apiProxy, city, units, lang) {
 	const data = await response.json();
 	return data;
 }
+
+// Start: Development
+let tempData = {
+	coord: { lon: 2.3488, lat: 48.8534 },
+	weather: [{ id: 804, main: "Clouds", description: "overcast clouds", icon: "04n" }],
+	base: "stations",
+	main: { temp: 9.06, feels_like: 8.76, temp_min: 7.99, temp_max: 9.87, pressure: 1032, humidity: 95 },
+	visibility: 10000,
+	wind: { speed: 1.34, deg: 270, gust: 3.13 },
+	clouds: { all: 100 },
+	dt: 1643494604,
+	sys: { type: 2, id: 2041230, country: "FR", sunrise: 1643441096, sunset: 1643474537 },
+	timezone: 3600,
+	id: 2988507,
+	name: "Paris",
+	cod: 200
+};
+
+DOM.displayWeather(tempData);
+
+let weather = [
+	"Clouds",
+	"Rain",
+	"Snow",
+	"Clear",
+	"Thunderstorm",
+	"Drizzle",
+	"Mist",
+	"Smoke",
+	"Fog",
+	"Haze",
+	"Dust",
+	"Sand",
+	"Ash",
+	"Squall",
+	"Tornado"
+];
+let time = ["d", "n"];
+
+const sleep = (milliseconds) => {
+	return new Promise((resolve) => setTimeout(resolve, milliseconds));
+};
+
+async function loop() {
+	let body = document.querySelector("body");
+	for (let t of time) {
+		for (let w of weather) {
+			body.setAttribute("data-weather", w);
+			body.setAttribute("data-time", t);
+			await sleep(1000);
+		}
+	}
+}
+
+loop();
+// End: Development
 
 // Development
 const apiProxy = "http://localhost:5000/weather";

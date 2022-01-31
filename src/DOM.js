@@ -9,6 +9,25 @@ const DOM = {
 	displayWeather: function (data) {
 		this.container.innerHTML = "";
 		this.container.classList.add("info");
+
+		const cityName = (function () {
+			let name = document.createElement("h1");
+			name.textContent = data.name;
+			name.classList.add("weather-city");
+			return name;
+		})();
+
+		const dateAndTime = (function () {
+			let date = document.createElement("h2");
+			date.textContent = new Date(data.dt * 1000).toLocaleString([], {
+				dateStyle: "medium",
+				timeStyle: "short",
+				hour12: false
+			});
+			date.classList.add("weather-date");
+			return date;
+		})();
+
 		const icon = (function () {
 			let icon = document.createElement("img");
 			icon.src = `http://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`;
@@ -38,7 +57,9 @@ const DOM = {
 				icon.classList.add("fas", "fa-wind");
 
 				let wind = document.createElement("span");
-				wind.textContent = `${data.wind.speed} m/s`;
+				let selectedUnit = document.querySelector("[type=radio]:checked").id;
+				let metric = selectedUnit === "metric" ? "m/s" : "mph";
+				wind.textContent = `${data.wind.speed} ${metric}`;
 
 				container.appendChild(icon);
 				container.appendChild(wind);
@@ -66,6 +87,8 @@ const DOM = {
 			return windAndHumidity;
 		})();
 
+		this.container.appendChild(cityName);
+		this.container.appendChild(dateAndTime);
 		this.container.appendChild(icon);
 		this.container.appendChild(description);
 		this.container.appendChild(temp);

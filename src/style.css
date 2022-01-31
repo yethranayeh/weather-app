@@ -145,7 +145,8 @@ body[data-time="d"] {
 body[data-time="n"] {
 	--bg: var(--night);
 	--primary: #212529;
-	--secondary: #343a40;
+	--secondary: #515a64;
+	/* --secondary: #343a40; */
 
 	--light: #e9ecef;
 	--middle: var(--mist);
@@ -334,14 +335,27 @@ input[type="search"] {
 	transition: border-color 250ms ease-out, background-color 250ms ease-out, color 250ms ease-out;
 }
 
+.weather-city {
+	font-size: 1.3em;
+	font-weight: 700;
+}
+
+.weather-date {
+	font-size: 0.8em;
+}
+
+.weather img {
+	/* Weather icons have extra empty space, so it is clipped with negative margins */
+	margin: -1em 0;
+}
+
 .weather-temp {
 	font-size: 4em;
 	font-weight: bold;
 }
 
 .weather-description {
-	font-size: 2rem;
-	font-weight: bold;
+	font-size: 1.1em;
 	text-transform: capitalize;
 }
 
@@ -349,6 +363,7 @@ input[type="search"] {
 	display: flex;
 	justify-content: space-between;
 	width: 100%;
+	font-size: 0.9em;
 }
 
 .wind-and-humidity i {
