@@ -27,9 +27,9 @@ async function getWeather(apiProxy, city, units, lang) {
 }
 
 // Development
-const apiProxy = "http://localhost:5000/weather";
+// const apiProxy = "http://localhost:5000/weather";
 // Production
-// const apiProxy = "https://aa-api-proxy.herokuapp.com/weather";
+const apiProxy = "https://aa-api-proxy.herokuapp.com/weather";
 
 const form = {
 	self: document.querySelector("form"),
@@ -75,7 +75,6 @@ PubSub.subscribe(Events.SEARCH_SUBMITTED, (topic, input) => {
 				throw new Error(data.message);
 			} else {
 				PubSub.publish(Events.WEATHER_LOADED, data);
-				console.log(data);
 			}
 		})
 		.catch((error) => {
