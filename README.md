@@ -2,10 +2,21 @@
 
 # Weather App
 
-This is a web-based weather application that fetches current weather data of the user-specified location from [OpenWeatherMap](https://openweathermap.org).
+This is a web-based weather application that is _re-built_ with `React` (check branch [main](https://github.com/yethranayeh/weather-app/tree/main) for earlier version).
 
-The app provides 33 language options to offer the user language-based results.
+The app fetches _the most recent_ weather data of the user-submitted location from [OpenWeatherMap](https://openweathermap.org) and displays it in UI components.
 
-## Technologies Used
+If allowed by user, the app also uses _geolocation_ on page load to fetch weather data of user's physical location.
 
-- `PubSub-js`
+The app provides 33 language options, which offer language-based weather results if available.
+
+## Built with:
+
+- [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://typescriptlang.org)
+- <a href="https://reactjs.org/"><img height="32" src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" /></a>
+- <a href="https://styled-components.com/"><img height="32" src="https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white" /></a>
+- <a href="https://vitejs.dev/"><img height="32" src="https://vitejs.dev/logo.svg" />Vite</a>
+
+## Credits
+
+- App icon: [weather](https://thenounproject.com/icon/weather-3773550/) by [Taufik Ramadhan](https://thenounproject.com/taufikr290/)
