@@ -2,7 +2,7 @@
 
 # Weather App
 
-This is a web-based weather application that is _re-built_ with `React` (check branch [main](https://github.com/yethranayeh/weather-app/tree/main) for earlier version).
+This is a web-based weather application that is _re-built_ with `React` (check [this branch](https://github.com/yethranayeh/weather-app/tree/70de5e056b45aba0d308915b6c9a3cd5f451417f) for pre-React version).
 
 The app fetches _the most recent_ weather data of the user-submitted location from [OpenWeatherMap](https://openweathermap.org) and displays it in UI components.
 
