@@ -159,9 +159,9 @@ function App() {
 			} else {
 				url = `${apiUrl}&q=${city}&units=${unit}&lang=${language}`;
 			}
-			console.info("URL:", url);
+			// console.info("URL:", url);
 			const response = await axios.get(url);
-			console.info("response", response);
+			// console.info("response", response);
 			return response.data;
 		} catch (err) {
 			setError(String(err));
@@ -214,7 +214,7 @@ function App() {
 	}
 
 	useEffect(() => {
-		console.clear();
+		// console.clear();
 		if (navigator.language) {
 			setLocalLanguage(navigator.language.split("-")[0]);
 		}
