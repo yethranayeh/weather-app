@@ -2,6 +2,7 @@
 
 import styled from "styled-components";
 import { FaGlobe } from "react-icons/fa";
+import { useState } from "react";
 
 const LanguageContainer = styled.div`
 	display: flex;
@@ -88,6 +89,7 @@ function isLocalLanguageSupported(localLanguage: string) {
 }
 
 export function LanguageOptsContainer({ onChange, language, localLanguage }: Props) {
+	const [localChecked, setLocalChecked] = useState(false);
 	return (
 		<>
 			<LanguageContainer>
@@ -102,9 +104,10 @@ export function LanguageOptsContainer({ onChange, language, localLanguage }: Pro
 				<LanguageSelect
 					name='language'
 					value={
-						isLocalLanguageSupported(localLanguage)
+						!localChecked && isLocalLanguageSupported(localLanguage)
 							? (() => {
 									onChange(localLanguage);
+									setLocalChecked(true);
 									return localLanguage;
 							  })()
 							: language
