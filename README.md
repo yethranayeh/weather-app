@@ -2,7 +2,7 @@
 
 # Weather App
 
-<div style="text-align: center; width: 100%"><img src="src/icons/mstile-70x70.png" /></div>
+<p align="center"><img src="src/icons/mstile-70x70.png" /></p>
 
 This is a web-based weather application that is _re-built_ with `React` (check [this branch](https://github.com/yethranayeh/weather-app/tree/70de5e056b45aba0d308915b6c9a3cd5f451417f) for pre-React version).
 
