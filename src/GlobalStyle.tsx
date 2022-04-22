@@ -62,9 +62,9 @@ export const weatherThemes = {
 export const RootStyle = createGlobalStyle<{ theme: Theme }>`
 	:root {
 		--border-radius: 10px;
-		--padding-min: 0.3rem;
-		--padding-medium: 0.5rem;
-		--padding-max: 1rem;
+		--padding-min: 0.2rem;
+		--padding-medium: 0.4rem;
+		--padding-max: 0.9rem;
 
 		--error: #de4d4c;
 
