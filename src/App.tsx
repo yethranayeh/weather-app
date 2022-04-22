@@ -137,6 +137,7 @@ function App() {
 	const [weatherTheme, setWeatherTheme] = useState("default");
 	const [position, setPosition] = useState(null as Position | null);
 	const [weatherData, setWeatherData] = useState(null as null | WeatherType);
+	const [waitingSubmission, setWaitingSubmission] = useState(false);
 	const [error, setError] = useState(null as null | string);
 	const [city, setCity] = useState("");
 	const [language, setLanguage] = useState("en");
@@ -200,12 +201,20 @@ function App() {
 	async function handleSubmit() {
 		// Set to null to show spinner
 		setWeatherData(null);
+		setError(null);
+		setWaitingSubmission(true);
 
-		const result = await getWeatherData();
-		setWeatherData(result);
-		const timeOfDay = result.weather[0].icon[result.weather[0].icon.length - 1];
-		const weather = result.weather[0].main;
-		setThemes(timeOfDay, weather);
+		try {
+			const result = await getWeatherData();
+			setWeatherData(result);
+			const timeOfDay = result.weather[0].icon[result.weather[0].icon.length - 1];
+			const weather = result.weather[0].main;
+			setThemes(timeOfDay, weather);
+		} catch (err) {
+			setError(String(err));
+		} finally {
+			setWaitingSubmission(false);
+		}
 	}
 
 	function setThemes(time: string, weather: string) {
@@ -279,7 +288,7 @@ function App() {
 								</div>
 							</ErrorContainer>
 						</WeatherContainer>
-					) : position ? (
+					) : position || waitingSubmission ? (
 						<SpinnerContainer>
 							<Spinner />
 						</SpinnerContainer>
