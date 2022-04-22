@@ -73,6 +73,12 @@ const DataWithIcon = styled.p`
 	justify-content: space-between;
 	font-size: 1.3em;
 	margin: 0.5em 0;
+	transition: box-shadow 250ms ease-out, transform 100ms ease-out;
+
+	&:hover {
+		transform: translateY(-0.1em);
+		box-shadow: -5px 5px 8px -2px rgba(0, 0, 0, 0.5);
+	}
 `;
 
 function withDataWithIcon(Icon: Function, data: string, color?: string) {
