@@ -26,7 +26,14 @@ export const WeatherContainer = styled.section`
 
 	border: 2px solid var(--primary);
 	border-radius: var(--border-radius);
-	background-color: var(--secondary);
+	${(props) => {
+		return props.theme.primary === "#212529"
+			? `background-color: ${props.theme.secondary}60;`
+			: `background-color: ${props.theme.secondary}40;`;
+	}}
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+	backdrop-filter: blur(11px);
+	-webkit-backdrop-filter: blur(11px);
 
 	text-shadow: 0 0 5px var(--primary);
 	color: var(--light);
