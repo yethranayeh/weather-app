@@ -80,6 +80,8 @@ const DataWithIcon = styled.p`
 	justify-content: space-between;
 	font-size: 1.3em;
 	margin: 0.5em 0;
+	border-radius: 5px;
+	border-right: none;
 	transition: box-shadow 250ms ease-out, transform 100ms ease-out;
 
 	&:hover {
@@ -92,10 +94,7 @@ function withDataWithIcon(Icon: Function, data: string, color?: string) {
 	return (
 		<DataWithIcon
 			style={{
-				// backgroundColor: "var(--dark)",
-				background: `linear-gradient(to right, ${color}80 20%, transparent 90%)`,
-				padding: "0.1em 0.2em",
-				borderRadius: "5px"
+				background: `linear-gradient(to right, ${color}80 20%, transparent 90%)`
 			}}>
 			<Icon
 				style={{
@@ -104,8 +103,7 @@ function withDataWithIcon(Icon: Function, data: string, color?: string) {
 					boxSizing: "content-box",
 					background: "var(--dark)",
 					borderRadius: "5px",
-					padding: "0.1em",
-					transform: "scale(0.9)"
+					padding: "0.1em"
 				}}
 			/>
 			{data}
