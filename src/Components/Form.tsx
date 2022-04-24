@@ -1,10 +1,11 @@
 /** @format */
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { SearchAreaContainer } from "./SearchAreaContainer";
 import { LanguageOptsContainer } from "./LanguageOptsContainer";
 import { UnitOptionsContainer } from "./UnitOptionsContainer";
+import { Favorites } from "./Favorites";
 
 const FormContainer = styled.form`
 	--fs: 1.2rem;
@@ -17,7 +18,9 @@ const FormContainer = styled.form`
 
 const OptionsContainer = styled.div`
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: space-between;
+	gap: 1rem;
 `;
 
 interface Props {
@@ -44,11 +47,24 @@ export function Form({
 	onSubmit
 }: Props) {
 	const formRef = useRef<HTMLFormElement>(null);
+	const [storageValues, setStorageValues] = useState({} as typeof Object);
 
 	function handleSubmit() {
 		onSubmit();
 		onFormUnitChange(unit);
 	}
+
+	window.addEventListener("storage", () => {
+		setStorageValues(JSON.parse(localStorage.getItem("weatherFavorites") as string));
+	});
+
+	useEffect(() => {
+		const storageData = localStorage.getItem("weatherFavorites");
+		if (storageData) {
+			const storedValues = JSON.parse(storageData);
+			setStorageValues(storedValues);
+		}
+	}, []);
 
 	return (
 		<FormContainer
@@ -70,6 +86,11 @@ export function Form({
 			/>
 			<OptionsContainer className='disable-select'>
 				<LanguageOptsContainer language={language} onChange={onLanguageChange} localLanguage={localLanguage} />
+
+				{typeof storageValues === "object" && Object.keys(storageValues).length > 0 && (
+					<Favorites onSubmit={onSubmit} favorites={storageValues} />
+				)}
+
 				<UnitOptionsContainer onChange={onUnitChange} />
 			</OptionsContainer>
 		</FormContainer>

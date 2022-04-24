@@ -1,7 +1,9 @@
 /** @format */
 import styled from "styled-components";
-import { BsExclamationCircle, BsSunrise, BsSunset } from "react-icons/bs";
+import { useEffect, useState } from "react";
+import { BsExclamationCircle, BsSunrise, BsSunset, BsMoonStarsFill } from "react-icons/bs";
 import { FaTemperatureHigh, FaTemperatureLow, FaTint, FaWind } from "react-icons/fa";
+import { AiFillStar } from "react-icons/ai";
 
 const WeatherLayout = styled.main`
 	display: flex;
@@ -38,6 +40,25 @@ export const WeatherContainer = styled.section`
 	text-shadow: 0 0 5px var(--primary);
 	color: var(--light);
 	transition: border-color 250ms ease-out, background-color 250ms ease-out, color 250ms ease-out;
+`;
+
+const FavoriteStarContainer = styled.div`
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: max-content;
+	height: max-content;
+	font-size: 1.5em;
+	padding: var(--padding-max);
+`;
+
+const FavoriteStar = styled(AiFillStar)`
+	cursor: pointer;
+	transition: transform 600ms cubic-bezier(0.65, 0, 0.35, 1), color 150ms ease-out;
+	color: var(--dark);
+	&:hover {
+		transform: rotate(145deg) scale(1.2);
+	}
 `;
 
 const CityName = styled.h1`
@@ -142,6 +163,8 @@ const supportedLangs = {
 };
 
 export function Weather({ data, language, unit }: { data: any; language: string; unit: string }) {
+	const [favorited, setFavorited] = useState(false);
+
 	function convertUnixToHours(unixTime: number) {
 		const date = new Date(unixTime * 1000);
 		const hours = date.getHours();
@@ -151,12 +174,55 @@ export function Weather({ data, language, unit }: { data: any; language: string;
 		return formattedTime;
 	}
 
+	function addToLocalStorage() {
+		const storageData = localStorage.getItem("weatherFavorites");
+		let favorites;
+		if (storageData && Object.keys(storageData).length > 0) {
+			favorites = JSON.parse(storageData);
+		} else {
+			favorites = {};
+		}
+		const newFavorites = { ...favorites, [data.id]: data.name };
+		localStorage.setItem("weatherFavorites", JSON.stringify(newFavorites));
+	}
+
+	function removeFromLocalStorage() {
+		const favorites = JSON.parse(localStorage.getItem("weatherFavorites") || "[]");
+		delete favorites[data.id];
+		localStorage.setItem("weatherFavorites", JSON.stringify(favorites));
+	}
+
+	function handleFavorited(state: boolean) {
+		setFavorited(state);
+		if (state) {
+			addToLocalStorage();
+		} else {
+			removeFromLocalStorage();
+		}
+		window.dispatchEvent(new Event("storage"));
+	}
+
+	useEffect(() => {
+		// If city name exists in local storage, set favorited to true
+		const storageData = localStorage.getItem("weatherFavorites");
+		if (storageData && Object.keys(storageData).length > 0) {
+			const favorites = JSON.parse(storageData) as { [key: string]: string };
+			if (favorites[data.id]) {
+				setFavorited(true);
+			}
+		}
+	}, []);
+
 	return data ? (
 		<WeatherLayout>
 			<WeatherContainer
 				style={{
-					flex: "5 1 auto"
+					flex: "5 1 auto",
+					position: "relative"
 				}}>
+				<FavoriteStarContainer>
+					<FavoriteStar color={favorited ? "#ffa700" : "var(--dark)"} onClick={() => handleFavorited(!favorited)} />
+				</FavoriteStarContainer>
 				<CityName>{data.name}</CityName>
 				<CurrentDate>
 					{new Date(data.dt * 1000).toLocaleString(supportedLangs[language as keyof typeof supportedLangs] || "en-US", {
@@ -165,11 +231,21 @@ export function Weather({ data, language, unit }: { data: any; language: string;
 						hour12: false
 					})}
 				</CurrentDate>
-				<WeatherImage
-					className='disable-select'
-					src={`https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`}
-					alt={data.weather[0].description}
-				/>
+				{data.weather[0].icon[data.weather[0].icon.length - 1] === "n" ? (
+					<BsMoonStarsFill
+						size={"5em"}
+						style={{
+							margin: "1em 0"
+						}}
+					/>
+				) : (
+					<WeatherImage
+						className='disable-select'
+						src={`https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`}
+						alt={data.weather[0].description}
+					/>
+				)}
+
 				<WeatherDesc>{data.weather[0].description}</WeatherDesc>
 				<WeatherTemp>{`${Math.round(data.main.temp)}°`}</WeatherTemp>
 			</WeatherContainer>
@@ -224,6 +300,8 @@ export function Weather({ data, language, unit }: { data: any; language: string;
 			</div>
 		</WeatherLayout>
 	) : (
-		<WeatherContainer>{withDataWithIcon(BsExclamationCircle, "Could not get weather data")}</WeatherContainer>
+		<WeatherContainer>
+			{withDataWithIcon(BsExclamationCircle, "Could not get weather data", "var(--error)")}
+		</WeatherContainer>
 	);
 }

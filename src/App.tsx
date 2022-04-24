@@ -1,6 +1,6 @@
 /** @format */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext } from "react";
 import axios from "axios";
 import "./App.css";
 import "./reset.css";
@@ -132,6 +132,8 @@ interface WeatherType {
 	cod: number;
 }
 
+export const WeatherContext = createContext<WeatherType | null>(null);
+
 function App() {
 	const [timeTheme, setTimeTheme] = useState("default");
 	const [weatherTheme, setWeatherTheme] = useState("default");
@@ -145,11 +147,14 @@ function App() {
 	const [unit, setUnit] = useState("metric");
 	const [formUnit, setFormUnit] = useState(unit);
 
-	// useEffect(() => {
-	// 	console.table(themes[theme as keyof typeof themes]);
-	// }, [theme]);
-
-	async function getWeatherData(lat?: string, lon?: string) {
+	interface getWeatherParams {
+		lat?: number;
+		lon?: number;
+		lang?: string;
+		unit?: string;
+		city?: string;
+	}
+	async function getWeatherData({ lat, lon, lang, unit, city }: getWeatherParams) {
 		const apiUrl = "https://aa-api-proxy.herokuapp.com/weather?";
 
 		let url;
@@ -158,11 +163,9 @@ function App() {
 			if (lat && lon) {
 				url = `${apiUrl}&lat=${lat}&lon=${lon}&units=${unit}&lang=${language}`;
 			} else {
-				url = `${apiUrl}&q=${city}&units=${unit}&lang=${language}`;
+				url = `${apiUrl}&q=${city}&units=${unit}&lang=${lang}`;
 			}
-			// console.info("URL:", url);
 			const response = await axios.get(url);
-			// console.info("response", response);
 			return response.data;
 		} catch (err) {
 			setError(String(err));
@@ -177,11 +180,11 @@ function App() {
 		if (pos.coords.latitude && pos.coords.longitude) {
 			// Set to null to show spinner
 			setWeatherData(null);
-
-			// console.log("Position is valid:", pos.coords.latitude, pos.coords.longitude);
+			const lat = pos.coords.latitude;
+			const lon = pos.coords.longitude;
 			try {
 				setError(null);
-				const result = await getWeatherData(pos.coords.latitude, pos.coords.longitude);
+				const result = await getWeatherData({ lat: lat, lon: lon, lang: language, unit: unit });
 				setWeatherData(result);
 				const timeOfDay = result.weather[0].icon[result.weather[0].icon.length - 1];
 				const weather = result.weather[0].main;
@@ -190,22 +193,22 @@ function App() {
 				setError(String(err));
 			}
 		} else {
-			console.log("Position is invalid");
+			console.warn("Position is invalid");
 		}
 	}
 
 	function getLocationError(err: any) {
-		console.warn(`ERROR(${err.code}): ${err.message}`);
+		console.error(`ERROR(${err.code}): ${err.message}`);
 	}
 
-	async function handleSubmit() {
+	async function handleSubmit(cityInput?: string) {
 		// Set to null to show spinner
 		setWeatherData(null);
 		setError(null);
 		setWaitingSubmission(true);
 
 		try {
-			const result = await getWeatherData();
+			const result = await getWeatherData({ city: cityInput ? cityInput : city, lang: language, unit: unit });
 			setWeatherData(result);
 			const timeOfDay = result.weather[0].icon[result.weather[0].icon.length - 1];
 			const weather = result.weather[0].main;
@@ -223,7 +226,6 @@ function App() {
 	}
 
 	useEffect(() => {
-		// console.clear();
 		if (navigator.language) {
 			setLocalLanguage(navigator.language.split("-")[0]);
 		}
@@ -240,60 +242,65 @@ function App() {
 				<RootTime />
 				<StarSelectorStyle />
 				<BodyStyle />
-				<AppContainer theme={{ weather: "var(--rain)" }}>
-					<Form
-						city={city}
-						onCityChange={setCity}
-						language={language}
-						onLanguageChange={setLanguage}
-						localLanguage={localLanguage}
-						unit={unit}
-						onUnitChange={setUnit}
-						onFormUnitChange={setFormUnit}
-						onSubmit={handleSubmit}
-					/>
-					{weatherData ? (
-						<Weather data={weatherData} language={language} unit={formUnit} />
-					) : error ? (
-						<WeatherContainer
-							style={{
-								backgroundColor: "#eee",
-								color: "var(--dark)",
-								fontSize: "1.3em"
-							}}>
-							<ErrorContainer>
-								<BsExclamationCircle
-									size={"4em"}
-									style={{
-										color: "var(--error)",
-										marginRight: "0.5em"
-									}}
-								/>
-								<div>
-									<p
+				<WeatherContext.Provider value={weatherData}>
+					<AppContainer>
+						<Form
+							city={city}
+							onCityChange={setCity}
+							language={language}
+							onLanguageChange={setLanguage}
+							localLanguage={localLanguage}
+							unit={unit}
+							onUnitChange={setUnit}
+							onFormUnitChange={setFormUnit}
+							onSubmit={handleSubmit}
+						/>
+						{weatherData ? (
+							<Weather data={weatherData} language={language} unit={formUnit} />
+						) : error ? (
+							<WeatherContainer
+								style={{
+									backgroundColor: "#eeeeee9e",
+									boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+									backdropFilter: "blur(11px)",
+									WebkitBackdropFilter: "blur(11px)",
+									color: "var(--dark)",
+									fontSize: "1.3em"
+								}}>
+								<ErrorContainer>
+									<BsExclamationCircle
+										size={"4em"}
 										style={{
-											marginBottom: "0.4em",
-											textShadow: "none"
-										}}>
-										There was a problem while retrieving weather data. Please <SpicyLink href='/'>refresh</SpicyLink>{" "}
-										the page or try again later.
-									</p>
-									<p
-										style={{
-											textShadow: "none"
-										}}>
-										If the issues persists please contact me at{" "}
-										<SpicyLink href='mailto:contact@aktasalper.com'>contact@aktasalper.com</SpicyLink>
-									</p>
-								</div>
-							</ErrorContainer>
-						</WeatherContainer>
-					) : position || waitingSubmission ? (
-						<SpinnerContainer>
-							<Spinner />
-						</SpinnerContainer>
-					) : null}
-				</AppContainer>
+											color: "var(--error)",
+											marginRight: "0.5em"
+										}}
+									/>
+									<div>
+										<p
+											style={{
+												marginBottom: "0.4em",
+												textShadow: "none"
+											}}>
+											There was a problem while retrieving weather data. Please <SpicyLink href='/'>refresh</SpicyLink>{" "}
+											the page or try again later.
+										</p>
+										<p
+											style={{
+												textShadow: "none"
+											}}>
+											If the issues persists please contact me at{" "}
+											<SpicyLink href='mailto:contact@aktasalper.com'>contact@aktasalper.com</SpicyLink>
+										</p>
+									</div>
+								</ErrorContainer>
+							</WeatherContainer>
+						) : position || waitingSubmission ? (
+							<SpinnerContainer>
+								<Spinner />
+							</SpinnerContainer>
+						) : null}
+					</AppContainer>
+				</WeatherContext.Provider>
 			</ThemeProvider>
 		</ThemeProvider>
 	);
