@@ -10,7 +10,9 @@ The app fetches the most recent weather data of the user-submitted location from
 
 If allowed by user, the app also uses _geolocation_ on page load to fetch weather data of user's physical location.
 
-The app provides 33 language options, which offer language-based weather results if available.
+The user can also add locations to their favorites for quick access to their most recent data.
+
+The app provides 33 language options, which offers language-based weather results if available.
 
 ## Built with:
 
