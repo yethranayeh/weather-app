@@ -1,7 +1,7 @@
 /** @format */
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { BsExclamationCircle, BsSunrise, BsSunset, BsMoonStarsFill } from "react-icons/bs";
+import { BsSunrise, BsSunset, BsMoonStarsFill } from "react-icons/bs";
 import { FaTemperatureHigh, FaTemperatureLow, FaTint, FaWind } from "react-icons/fa";
 import { AiFillStar } from "react-icons/ai";
 
@@ -213,7 +213,7 @@ export function Weather({ data, language, unit }: { data: any; language: string;
 		}
 	}, []);
 
-	return data ? (
+	return (
 		<WeatherLayout>
 			<WeatherContainer
 				style={{
@@ -231,7 +231,7 @@ export function Weather({ data, language, unit }: { data: any; language: string;
 						hour12: false
 					})}
 				</CurrentDate>
-				{data.weather[0].icon[data.weather[0].icon.length - 1] === "n" ? (
+				{data.weather[0].icon === "01n" ? (
 					<BsMoonStarsFill
 						size={"5em"}
 						style={{
@@ -299,9 +299,5 @@ export function Weather({ data, language, unit }: { data: any; language: string;
 				</WeatherContainer>
 			</div>
 		</WeatherLayout>
-	) : (
-		<WeatherContainer>
-			{withDataWithIcon(BsExclamationCircle, "Could not get weather data", "var(--error)")}
-		</WeatherContainer>
 	);
 }
