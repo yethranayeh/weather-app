@@ -72,7 +72,7 @@ interface Props {
 export function Favorites({ favorites = {}, onSubmit, visible }: Props) {
 	const weatherData = useContext(WeatherContext);
 
-	const containerRef = useRef(null);
+	const containerRef = useRef(null as any);
 	const spring = useSpring({
 		opacity: visible ? 1 : 0,
 		minHeight: visible ? 42 : 0,
