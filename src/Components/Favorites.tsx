@@ -1,16 +1,19 @@
 /** @format */
 
 import styled from "styled-components";
-import { AiFillStar } from "react-icons/ai";
+import { useContext, useRef } from "react";
+import { useSpring, animated } from "react-spring";
 import { WeatherContext } from "../App";
-import { useContext } from "react";
+import { AiFillStar } from "react-icons/ai";
 
-const Container = styled.section`
+const Container = styled(animated.section)`
 	display: flex;
 	flex: 1;
 	align-items: stretch;
 	justify-content: flex-start;
 	gap: 0.4rem;
+	min-height: 34px;
+	line-height: 0;
 
 	overflow: hidden;
 	padding: 0 0 0 var(--padding-medium);
@@ -20,6 +23,11 @@ const Container = styled.section`
 	border-radius: var(--border-radius);
 	color: var(--light);
 	transition: border-color 250ms ease-out, background-color 250ms ease-out, color 250ms ease-out;
+
+	@media (min-width: 768px) {
+		margin-top: 0 !important;
+		height: 42.4px !important;
+	}
 
 	@media (max-width: 768px) {
 		flex: 0 0 100%;
@@ -36,7 +44,6 @@ const IconContainer = styled.div`
 const UList = styled.ul`
 	display: flex;
 	align-items: stretch;
-	// gap: 0.3rem;
 	overflow: auto;
 	white-space: nowrap;
 `;
@@ -45,11 +52,11 @@ const Button = styled.button`
 	background-color: var(--secondary);
 	color: var(--light);
 	border: none;
-	// border-radius: var(--border-radius);
 	padding: 0 var(--padding-medium);
+	overflow: hidden;
 
 	cursor: pointer;
-	transition: background-color 250ms ease-out, color 250ms ease-out;
+	transition: background-color 250ms ease-out;
 
 	&:hover {
 		background-color: var(--primary);
@@ -59,13 +66,23 @@ const Button = styled.button`
 interface Props {
 	favorites: object;
 	onSubmit: Function;
+	visible: boolean;
 }
 
-export function Favorites({ favorites = {}, onSubmit }: Props) {
+export function Favorites({ favorites = {}, onSubmit, visible }: Props) {
 	const weatherData = useContext(WeatherContext);
 
+	const containerRef = useRef(null);
+	const spring = useSpring({
+		opacity: visible ? 1 : 0,
+		minHeight: visible ? 42 : 0,
+		height: visible ? containerRef.current.offsetHeight : 0,
+		transform: visible ? "translate3d(0, 0%, 0)" : "translate3d(0, -30%, 0)",
+		marginTop: visible ? "1rem" : "0"
+	});
+
 	return (
-		<Container>
+		<Container style={spring} ref={containerRef}>
 			<IconContainer>
 				<AiFillStar />
 			</IconContainer>

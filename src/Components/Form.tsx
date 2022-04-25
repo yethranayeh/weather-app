@@ -21,6 +21,10 @@ const OptionsContainer = styled.div`
 	flex-wrap: wrap;
 	justify-content: space-between;
 	gap: 1rem;
+
+	@media (max-width: 768px) {
+		gap: 0;
+	}
 `;
 
 interface Props {
@@ -48,6 +52,7 @@ export function Form({
 }: Props) {
 	const formRef = useRef<HTMLFormElement>(null);
 	const [storageValues, setStorageValues] = useState({} as typeof Object);
+	const [favsVisible, setFavsVisible] = useState(false);
 
 	function handleSubmit() {
 		onSubmit();
@@ -55,7 +60,11 @@ export function Form({
 	}
 
 	window.addEventListener("storage", () => {
-		setStorageValues(JSON.parse(localStorage.getItem("weatherFavorites") as string));
+		const values = JSON.parse(localStorage.getItem("weatherFavorites") as string);
+		setStorageValues(values);
+
+		const bool = typeof values === "object" && Object.keys(values).length > 0;
+		setFavsVisible(bool);
 	});
 
 	useEffect(() => {
@@ -63,6 +72,9 @@ export function Form({
 		if (storageData) {
 			const storedValues = JSON.parse(storageData);
 			setStorageValues(storedValues);
+
+			const bool = typeof storedValues === "object" && Object.keys(storedValues).length > 0;
+			setFavsVisible(bool);
 		}
 	}, []);
 
@@ -87,9 +99,7 @@ export function Form({
 			<OptionsContainer className='disable-select'>
 				<LanguageOptsContainer language={language} onChange={onLanguageChange} localLanguage={localLanguage} />
 
-				{typeof storageValues === "object" && Object.keys(storageValues).length > 0 && (
-					<Favorites onSubmit={onSubmit} favorites={storageValues} />
-				)}
+				<Favorites onSubmit={onSubmit} favorites={storageValues} visible={favsVisible} />
 
 				<UnitOptionsContainer onChange={onUnitChange} />
 			</OptionsContainer>
