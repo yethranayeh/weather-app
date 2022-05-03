@@ -1,31 +1,11 @@
 /** @format */
 
 import { useState, useRef, useEffect } from "react";
-import styled from "styled-components";
 import { SearchAreaContainer } from "./SearchAreaContainer";
 import { LanguageOptsContainer } from "./LanguageOptsContainer";
 import { UnitOptionsContainer } from "./UnitOptionsContainer";
 import { Favorites } from "./Favorites";
-
-const FormContainer = styled.form`
-	--fs: 1.2rem;
-	font-size: var(--fs);
-	display: flex;
-	flex-direction: column;
-	gap: 0.5em;
-	width: 100%;
-`;
-
-const OptionsContainer = styled.div`
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
-	gap: 1rem;
-
-	@media (max-width: 768px) {
-		gap: 0;
-	}
-`;
+import { FormContainer, OptionsContainer } from "../styles/FormStyle";
 
 interface Props {
 	city: string;

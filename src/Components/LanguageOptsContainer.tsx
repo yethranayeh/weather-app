@@ -1,76 +1,14 @@
 /** @format */
 
-import styled from "styled-components";
-import { FaGlobe } from "react-icons/fa";
 import { useState } from "react";
-
-const LanguageContainer = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	gap: 0.6em;
-	padding: var(--padding-min) var(--padding-medium);
-	border: 2px solid var(--primary);
-	border-radius: var(--border-radius);
-	background-color: var(--secondary);
-	color: var(--light);
-	transition: border-color 250ms ease-out, background-color 250ms ease-out, color 250ms ease-out;
-`;
-
-const LanguageSelect = styled.select`
-	color: var(--light);
-	border: none;
-	background: none;
-`;
-
-const LanguageOptGroup = styled.optgroup`
-	color: var(--light);
-	background-color: var(--primary);
-	transition: color 250ms ease-out, background-color 250ms ease-out;
-`;
-
-const LanguageOption = styled.option`
-	color: var(--light);
-	background-color: var(--secondary);
-	text-transform: capitalize;
-	transition: color 250ms ease-out, background-color 250ms ease-out;
-`;
-
-const availableLanguages = [
-	["af", "Afrikaans"],
-	["al", "Shqip"],
-	["ar", "عربى"],
-	["az", "Azərbaycan dilində"],
-	["bg", "Български"],
-	["cz", "Čeština"],
-	["da", "Dansk"],
-	["de", "Deutsch"],
-	["el", "Ελληνικά"],
-	["fi", "Suomi"],
-	["fr", "Français"],
-	["he", "עברית"],
-	["hi", "हिन्दी"],
-	["hr", "Hrvatski"],
-	["hu", "Magyar"],
-	["id", "Bahasa Indonesia"],
-	["it", "Italiano"],
-	["ja", "日本語"],
-	["kr", "한국어"],
-	["no", "Norsk"],
-	["nl", "Nederlands"],
-	["pl", "Polski"],
-	["pt", "Português"],
-	["ro", "Română"],
-	["ru", "Русский"],
-	["sv", "Svenska"],
-	["sp", "Español"],
-	["sr", "Српски"],
-	["th", "ไทย"],
-	["tr", "Türkçe"],
-	["uk", "Українська"],
-	["vi", "Tiếng Việt"],
-	["zh_cn", "简体中文"]
-];
+import {
+	LanguageContainer,
+	LanguageSelect,
+	LanguageOptGroup,
+	LanguageOption
+} from "../styles/LanguageOptsContainerStyle";
+import { availableLanguages } from "../utils/availableLanguages";
+import { FaGlobe } from "react-icons/fa";
 
 interface Props {
 	onChange: Function;

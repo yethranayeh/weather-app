@@ -2,91 +2,15 @@
 
 import { useState, useEffect, createContext } from "react";
 import axios from "axios";
-import "./App.css";
-import "./reset.css";
-import styled, { ThemeProvider } from "styled-components";
-import {
-	RootStyle,
-	RootWeather,
-	weatherThemes,
-	RootTime,
-	timeThemes,
-	StarSelectorStyle,
-	BodyStyle
-} from "./GlobalStyle";
+import { ThemeProvider } from "styled-components";
+import { RootStyle, RootWeather, RootTime, StarSelectorStyle, BodyStyle } from "./styles/GlobalStyle";
+import { weatherThemes, timeThemes } from "./utils/themes";
+import { Container as AppContainer } from "./styles/AppStyle";
+import { Link as SpicyLink } from "./styles/LinkStyle";
+import { Spinner } from "./Components/Spinner";
 import { Form } from "./Components/Form";
-import { Weather, WeatherContainer } from "./Components/Weather";
-import { ImSpinner2 } from "react-icons/im";
-import { BsExclamationCircle } from "react-icons/bs";
-
-const AppContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	gap: 1rem;
-	padding: var(--padding-max);
-`;
-
-const SpinnerContainer = styled.section`
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-`;
-
-const Spinner = styled(ImSpinner2)`
-	font-size: 7rem;
-	margin: 1rem;
-	animation: rotate 1s linear infinite;
-	@keyframes rotate {
-		from {
-			transform: rotate(0deg);
-		}
-		to {
-			transform: rotate(360deg);
-		}
-	}
-`;
-
-const ErrorContainer = styled.section`
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-	gap: 1rem;
-
-	@media screen and (max-width: 550px) {
-		flex-direction: column;
-	}
-`;
-
-const SpicyLink = styled.a`
-	text-decoration: none;
-	position: relative;
-	white-space: nowrap;
-	color: var(--error);
-
-	&::before {
-		content: "";
-		transform-origin: 100% 50%;
-		transform: scale3d(0, 1, 1);
-		transition: transform 0.3s;
-	}
-
-	&:hover::before {
-		transform-origin: 0% 50%;
-		transform: scale3d(1, 1, 1);
-	}
-
-	&::before,
-	&::after {
-		position: absolute;
-		width: 100%;
-		height: 1px;
-		background: currentColor;
-		top: 100%;
-		left: 0;
-		pointer-events: none;
-	}
-`;
+import { Weather } from "./Components/Weather";
+import { ErrorMessage } from "./Components/ErrorMessage";
 
 type Position = {
 	latitude: number;
@@ -234,6 +158,23 @@ function App() {
 		}
 	}, []);
 
+	const WeatherContent = () => <Weather data={weatherData} language={language} unit={formUnit} />;
+	const ErrorContent = () => (
+		<ErrorMessage>
+			<p
+				style={{
+					lineHeight: "1.4em",
+					textShadow: "none"
+				}}>
+				There was a problem while retrieving weather data. Please <SpicyLink href='.'>refresh</SpicyLink> the page or
+				try again later.
+				<br />
+				If the issues persists please contact me at{" "}
+				<SpicyLink href='mailto:contact@aktasalper.com'>contact@aktasalper.com</SpicyLink>
+			</p>
+		</ErrorMessage>
+	);
+
 	return (
 		<ThemeProvider theme={timeThemes[timeTheme as keyof typeof timeThemes]}>
 			<ThemeProvider theme={weatherThemes[weatherTheme as keyof typeof weatherThemes]}>
@@ -256,48 +197,11 @@ function App() {
 							onSubmit={handleSubmit}
 						/>
 						{weatherData ? (
-							<Weather data={weatherData} language={language} unit={formUnit} />
+							<WeatherContent />
 						) : error ? (
-							<WeatherContainer
-								style={{
-									backgroundColor: "#eeeeee9e",
-									boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-									backdropFilter: "blur(11px)",
-									WebkitBackdropFilter: "blur(11px)",
-									color: "var(--dark)",
-									fontSize: "1.3em"
-								}}>
-								<ErrorContainer>
-									<BsExclamationCircle
-										size={"4em"}
-										style={{
-											color: "var(--error)",
-											marginRight: "0.5em"
-										}}
-									/>
-									<div>
-										<p
-											style={{
-												marginBottom: "0.4em",
-												textShadow: "none"
-											}}>
-											There was a problem while retrieving weather data. Please <SpicyLink href='/'>refresh</SpicyLink>{" "}
-											the page or try again later.
-										</p>
-										<p
-											style={{
-												textShadow: "none"
-											}}>
-											If the issues persists please contact me at{" "}
-											<SpicyLink href='mailto:contact@aktasalper.com'>contact@aktasalper.com</SpicyLink>
-										</p>
-									</div>
-								</ErrorContainer>
-							</WeatherContainer>
+							<ErrorContent />
 						) : position || waitingSubmission ? (
-							<SpinnerContainer>
-								<Spinner />
-							</SpinnerContainer>
+							<Spinner />
 						) : null}
 					</AppContainer>
 				</WeatherContext.Provider>
