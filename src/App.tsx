@@ -161,14 +161,11 @@ function App() {
 	const WeatherContent = () => <Weather data={weatherData} language={language} unit={formUnit} />;
 	const ErrorContent = () => (
 		<ErrorMessage>
-			<p
-				style={{
-					lineHeight: "1.4em",
-					textShadow: "none"
-				}}>
+			<p>
 				There was a problem while retrieving weather data. Please <SpicyLink href='.'>refresh</SpicyLink> the page or
 				try again later.
-				<br />
+			</p>
+			<p>
 				If the issues persists please contact me at{" "}
 				<SpicyLink href='mailto:contact@aktasalper.com'>contact@aktasalper.com</SpicyLink>
 			</p>

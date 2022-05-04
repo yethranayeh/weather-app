@@ -8,7 +8,14 @@ export const RootStyle = createGlobalStyle<{ theme: Theme }>`
 		--border-radius: 10px;
 		--padding-min: 0.2rem;
 		--padding-medium: 0.4rem;
+		--padding-medium-lg: 0.8rem;
+		--padding-medium-xl: 1.2rem;
+		--padding-medium-xxl: 2rem;
 		--padding-max: 0.9rem;
+		--padding-max-md: 5rem;
+		--padding-max-lg: 10rem;
+		--padding-max-xl: 20rem;
+		--padding-max-xxl: 30rem;
 
 		--error: #de4d4c;
 
