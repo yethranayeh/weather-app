@@ -18,6 +18,7 @@ The app provides 33 language options, which offers language-based weather result
 
 - [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://typescriptlang.org)
 - <a href="https://reactjs.org/"><img height="32" src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" /></a>
+- <a href="https://easy-peasy.dev/"><img height="32" src="https://github.com/ctrlplusb/easy-peasy/raw/master/website/docs/assets/logo-small.png" />Easy-Peasy State Management</a>
 - <a href="https://styled-components.com/"><img height="32" src="https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white" /></a>
 - <a href="https://vitejs.dev/"><img height="32" src="https://vitejs.dev/logo.svg" />Vite</a>
 
