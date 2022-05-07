@@ -36,10 +36,15 @@ export const SearchAreaInput = styled.input`
 export const SearchAreaIcon = styled(FaSearch)`
 	cursor: pointer;
 	color: var(--primary);
-	transition: color 250ms ease-out;
+	transition: color 250ms ease-out, transform 250ms ease-out;
 
 	${SearchArea}:focus-within &,
     ${SearchArea}:hover & {
 		color: var(--secondary);
+	}
+
+	&:hover {
+		transform: scale(1.2) rotate(15deg);
+		color: var(--primary) !important;
 	}
 `;
