@@ -2,14 +2,22 @@
 
 import { UnitOptions, UnitInput, UnitLabel } from "../styles/UnitOptionsContainerStyle";
 interface Props {
+	unit: string;
 	onChange: Function;
 }
 
-export function UnitOptionsContainer({ onChange }: Props) {
+export function UnitOptionsContainer({ unit, onChange }: Props) {
 	return (
 		<>
 			<UnitOptions>
-				<UnitInput type='radio' name='units' id='imperial' autoComplete='off' onChange={(e) => onChange(e.target.id)} />
+				<UnitInput
+					type='radio'
+					name='units'
+					id='imperial'
+					autoComplete='off'
+					onChange={(e) => onChange(e.target.id)}
+					defaultChecked={unit === "imperial"}
+				/>
 				<UnitLabel htmlFor='imperial'>°F</UnitLabel>
 				<UnitInput
 					type='radio'
@@ -17,7 +25,7 @@ export function UnitOptionsContainer({ onChange }: Props) {
 					id='metric'
 					autoComplete='off'
 					onChange={(e) => onChange(e.target.id)}
-					defaultChecked
+					defaultChecked={unit === "metric"}
 				/>
 				<UnitLabel htmlFor='metric'>°C</UnitLabel>
 			</UnitOptions>

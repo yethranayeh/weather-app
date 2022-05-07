@@ -4,11 +4,11 @@ import { SearchArea, SearchAreaInput, SearchAreaIcon } from "../styles/SearchAre
 
 interface Props {
 	onSubmit: Function;
-	handleChange: Function;
-	city: string;
+	input: string;
+	onInputChange: Function;
 }
 
-export function SearchAreaContainer({ onSubmit, handleChange, city }: Props) {
+export function SearchAreaContainer({ onSubmit, input, onInputChange }: Props) {
 	return (
 		<SearchArea>
 			<label htmlFor='search' className='sr-only'>
@@ -18,15 +18,14 @@ export function SearchAreaContainer({ onSubmit, handleChange, city }: Props) {
 				type='search'
 				name='search'
 				placeholder='Search city'
-				value={city}
-				onChange={(e) => handleChange(e.target.value)}
+				value={input}
+				onChange={(e) => onInputChange(e.target.value)}
 				pattern='^[\p{N}+|\p{L}+].*'
 				minLength={3}
 				autoComplete='off'
 				required
 			/>
 			<SearchAreaIcon onClick={() => onSubmit()} />
-			{/* <SearchAreaIcon className='fas fa-search' onClick={() => onSubmit()}></SearchAreaIcon> */}
 		</SearchArea>
 	);
 }

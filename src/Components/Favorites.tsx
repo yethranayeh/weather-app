@@ -1,19 +1,25 @@
 /** @format */
 
-import { useContext, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useStoreState } from "../store";
 import { Container, IconContainer, UList, Button } from "../styles/FavoritesStyle";
-import { WeatherContext } from "../App";
 import { useSpring } from "react-spring";
 import { AiFillStar } from "react-icons/ai";
 
 interface Props {
-	favorites: object;
 	onSubmit: Function;
-	visible: boolean;
 }
 
-export function Favorites({ favorites = {}, onSubmit, visible }: Props) {
-	const weatherData = useContext(WeatherContext);
+export function Favorites({ onSubmit }: Props) {
+	const weatherData = useStoreState((state) => state.weatherData);
+	const favorites = useStoreState((state) => state.favorites);
+	const [visible, setVisible] = useState(false);
+	const visibleState = useStoreState((state) => state.favoritesVisible);
+
+	useEffect(() => {
+		setVisible(visibleState);
+	}),
+		[visible];
 
 	const containerRef = useRef(null as any);
 	const spring = useSpring({

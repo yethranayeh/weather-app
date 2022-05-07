@@ -1,6 +1,10 @@
 /** @format */
 
-export const supportedLangs = {
+interface SupportedLangsObject {
+	[key: string]: string;
+}
+
+export const supportedLangs: SupportedLangsObject = {
 	ar: "ar-SA",
 	cs: "cs-CZ",
 	da: "da-DK",
