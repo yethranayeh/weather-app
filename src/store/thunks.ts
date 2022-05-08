@@ -11,7 +11,9 @@ const apiUrl = "https://api.openweathermap.org/data/2.5/weather?appid=c74b74ebe3
 
 export const getWeatherByCity = thunk<StoreModel, getWeatherParams>(async (actions, payload) => {
 	actions.setError(null);
-	const { city, lang, unit } = payload;
+	const { lang, unit } = payload;
+	let { city } = payload;
+	city = city?.trim().split(" ").join(",");
 
 	const url = `${apiUrl}&q=${city}&units=${unit}&lang=${lang}`;
 	try {
