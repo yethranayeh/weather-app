@@ -17,7 +17,6 @@ export const setWeatherData = action<StoreModel, WeatherType>((state, payload) =
 });
 
 export const setPosition = action<StoreModel, any>((state, payload) => {
-	console.info("setPosition", payload);
 	if (payload && typeof payload === "object") {
 		const { lat, lon } = payload;
 		if (lat && lon) {
