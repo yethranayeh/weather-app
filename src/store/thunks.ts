@@ -6,8 +6,7 @@ import { StoreModel } from "../interfaces/StoreModel";
 import { getWeatherParams } from "../interfaces";
 import { availableLanguages } from "../utils/availableLanguages";
 
-// const apiUrl = "https://aa-api-proxy.herokuapp.com/weather?";
-const apiUrl = "https://api.openweathermap.org/data/2.5/weather?appid=c74b74ebe3434038f6d1c17f73987b21";
+const targetUrl = "https://aa-api-proxy.herokuapp.com/weather?";
 
 export const getWeatherByCity = thunk<StoreModel, getWeatherParams>(async (actions, payload) => {
 	actions.setError(null);
@@ -15,7 +14,7 @@ export const getWeatherByCity = thunk<StoreModel, getWeatherParams>(async (actio
 	let { city } = payload;
 	city = city?.trim().split(" ").join(",");
 
-	const url = `${apiUrl}&q=${city}&units=${unit}&lang=${lang}`;
+	const url = `${targetUrl}&q=${city}&units=${unit}&lang=${lang}`;
 	try {
 		actions.setLoading(true);
 
@@ -38,7 +37,7 @@ export const getWeatherByLocation = thunk<StoreModel, getWeatherParams>(async (a
 	const { lat, lon } = payload;
 	const { language: lang, unit } = getState();
 
-	const url = `${apiUrl}&lat=${lat}&lon=${lon}&units=${unit}&lang=${lang}`;
+	const url = `${targetUrl}&lat=${lat}&lon=${lon}&units=${unit}&lang=${lang}`;
 	try {
 		actions.setLoading(true);
 
