@@ -19,6 +19,7 @@ export const LanguageSelect = styled.select`
 	color: var(--light);
 	border: none;
 	background: none;
+	cursor: pointer;
 `;
 
 export const LanguageOptGroup = styled.optgroup`
