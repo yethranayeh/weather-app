@@ -53,7 +53,8 @@ export const getUserGeolocation = thunk<StoreModel, void>(async (actions) => {
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(
 			(location) => actions.setPosition({ lat: location.coords.latitude, lon: location.coords.longitude }),
-			actions.setError
+			actions.setError,
+			{ enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
 		);
 	}
 });
